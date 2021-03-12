@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myboard.mapper.BoardMapper">
+	<sql id="BoardColumns">
+		idx,
+		title,
+		content,
+		writer,
+		view_cnt,
+		delete_yn,
+		insert_time,
+		update_time,
+		delete_time
+	</sql>
+	
+	<insert id="insertBoard" parameterType="BoardDTO">
+		INSERT INTO tb_myboard (
+			<include refid="BoardColumns"/>
+		) VALUES (
+				#{idx},
+				#{title},
+				#{content},
+				#{writer},
+				0,
+				'N',
+				now(),
+				null,
+				null
+		)
+	</insert>
+	
+	<select id="selectDetail" parameterType="Long" resultType="BoardDTO">
+		SELECT
+			<include refid="BoardColumns" />
+		FROM
+			tb_myboard
+		WHERE
+			idx = #{idx}	
+		AND
+			delete_yn = 'N'		
+	</select>
+	
+	<update id="updateBoard" parameterType="BoardDTO">
+		UPDATE tb_myboard
+		SET
+			update_time = now(),
+			title = #{title},
+			content = #{content},
+			writer = #{writer}
+		WHERE
+			idx = #{idx}
+	</update>
+	
+	<update id="deleteBoard" parameterType="long">
+		UPDATE tb_myboard
+		SET
+			delete_yn = 'Y',
+			delete_time = now()
+		WHERE
+			idx = #{idx}	
+	</update>
+	
+	<select id="selectList" parameterType="BoardDTO" resultType="BoardDTO">
+		SELECT
+			<include refid="BoardColumns" />
+		FROM
+			tb_myboard
+		WHERE
+			delete_yn = 'N'
+		ORDER BY
+			idx desc,
+			insert_time desc			
+	</select>
+	
+	<select id="totalCount" parameterType="BoardDTO" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			tb_myboard
+		WHERE
+			delete_yn = 'N'		
+	</select>
+	
+	
+
+</mapper>
