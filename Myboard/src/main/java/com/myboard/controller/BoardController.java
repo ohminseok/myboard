@@ -19,6 +19,7 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
+	
 	@GetMapping(value ="/myboard/write.do")
 	public String openWriter(@RequestParam(value ="idx" , required = false) Long idx,Model model) {
 		
@@ -28,11 +29,11 @@ public class BoardController {
 			BoardDTO board = boardService.detailBoard(idx);
 			
 			if (board == null) {
-				return "redircet:/board/list.do";
+				return "redirect:/myboard/index.do";
 			}
 			model.addAttribute("board",board);
 		}
-		return "board/write";
+		return "myboard/write";
 	}
 	
 	@PostMapping(value = "/myboard/register.do")
@@ -42,22 +43,68 @@ public class BoardController {
 				
 			if (isRegisterd == false) {
 				//게시글 등록 실패
+				System.out.println("실패");
 			}
 			
 		} catch (DataAccessException e) {
 			//데이터베이스 치러 실패
+			System.out.println("실패1");
 		} catch (Exception e) {
 			//시스템 문제
+			System.out.println("실패2");
 	}
-		return "redirect:/board/list.do";
+		return "redirect:/myboard/index.do";
 
 	}
 	
-	@GetMapping(value = "/myboard/list.do")
+	@GetMapping(value = "/myboard/index.do")
 	public String openBoardList(Model model) {
 		List<BoardDTO> boardList = boardService.ListBoard();
 		model.addAttribute("boardList",boardList);
 		
-		return "board/list";
+		return "myboard/index";
+	}
+	
+	@GetMapping(value = "/myboard/view.do")
+	public String openBoardDetail(@RequestParam(value = "idx", required = false) Long idx,Model model) {
+		if (idx == null) {
+			//아예 번호가 없을때
+			return "redirect:/myboard/index.do";
+		}
+		BoardDTO board = boardService.detailBoard(idx);
+		if (board == null && "Y".equals(board.getDeleteYn())) {
+			//내용이 비었거나 삭제된 글 일떄
+			return "/myboard/index.do";
+		}
+		model.addAttribute("board",board);
+		boardService.viewPlus(idx);
+		
+		return "myboard/view";
+	}
+	
+	@PostMapping(value = "/myboard/delete.do")
+	public String deleteBoard(@RequestParam(value = "idx" , required = false) Long idx) {
+		if (idx == null) {
+			System.out.println("실패1");
+			return "redirect:/myboard/list.do";
+		}
+		
+		try {
+		
+			boolean isDeleted = boardService.dropBoard(idx);
+		
+			if (isDeleted == false) {
+				//실패 메세지
+				System.out.println("실패2");
+			}
+		
+		}catch(DataAccessException e) {
+			//데이터 베이스 처리과정 문제
+			System.out.println("실패3");
+		}catch(Exception e) {
+			System.out.println("실패4");
+		}
+		
+		return "redirect:/myboard/list.do";
 	}
 }

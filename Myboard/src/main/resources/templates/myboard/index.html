@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="myboard/layout/basic">
+
+
+
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">게시판</h1>
+                 
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">게시판</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>글번호</th>
+                                            <th>제목</th>
+                                            <th>내용</th>
+                                            <th>글쓴이</th>
+                                            <th>조회수</th>
+                                            <th>등록날짜</th>
+                                        </tr>
+                                    </thead>
+									<tbody>
+										<tr th:if="${not #lists.isEmpty( boardList )}" th:each="row : ${boardList}">
+										<td scope="row" th:text="${#strings.equals( row.noticeYn, 'Y' ) ? '공지' : row.idx}"></td>
+										<td class="text-left">
+											<a th:href="@{/myboard/view.do( idx=${row.idx} )}" th:text="${row.title}"></a>
+										</td>
+										<td th:text="${row.content}"></td>
+										<td th:text="${row.writer}"></td>
+										<td th:text=${row.viewCnt}></td>
+										<td th:text="${#temporals.format( row.insertTime, 'yyyy-MM-dd' )}"></td>	
+										</tr>
+										
+										<tr th:unless="${not #lists.isEmpty( boardList )}">
+											<td colspan="5">조회된 결과가 없습니다.</td>
+										</tr>
+									</tbody>
+                                   
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+</html>

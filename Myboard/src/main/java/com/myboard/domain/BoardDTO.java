@@ -19,7 +19,11 @@ public class BoardDTO {
 	
 	private int viewCnt;
 	
-	private String delete_Yn;
+	private String noticeYn;
+	
+	private String secretYn;
+	
+	private String deleteYn;
 	
 	private LocalDateTime insertTime;
 	

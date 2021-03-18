@@ -7,6 +7,8 @@
 		content,
 		writer,
 		view_cnt,
+		notice_yn,
+		secret_yn,
 		delete_yn,
 		insert_time,
 		update_time,
@@ -22,6 +24,8 @@
 				#{content},
 				#{writer},
 				0,
+				IFNULL(#{noticeYn} , 'N'),
+				IFNULL(#{secretYn} , 'N'),				
 				'N',
 				now(),
 				null,
@@ -46,7 +50,9 @@
 			update_time = now(),
 			title = #{title},
 			content = #{content},
-			writer = #{writer}
+			writer = #{writer},
+			notice_yn = IFNULL(#{noticeYn} , 'N'),
+			secret_yn = IFNULL(#{secretYn} , 'N')
 		WHERE
 			idx = #{idx}
 	</update>
@@ -68,8 +74,9 @@
 		WHERE
 			delete_yn = 'N'
 		ORDER BY
-			idx desc,
-			insert_time desc			
+			notice_yn ASC,
+			idx DESC,
+			insert_time DESC			
 	</select>
 	
 	<select id="totalCount" parameterType="BoardDTO" resultType="int">
@@ -80,6 +87,14 @@
 		WHERE
 			delete_yn = 'N'		
 	</select>
+	
+	<update id="viewPlus" parameterType="long">
+		UPDATE tb_myboard
+		SET
+			view_cnt = view_cnt + 1
+		WHERE
+			idx = #{idx}	
+	</update>
 	
 	
 

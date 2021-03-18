@@ -21,6 +21,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		if(params.getIdx() == null) {
 			quaryResult = boardMapper.insertBoard(params);
+			
 		} else {
 			quaryResult = boardMapper.updateBoard(params);
 		}
@@ -40,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		BoardDTO board = boardMapper.selectDetail(idx);
 		
-		if (board != null && "N".equals(board.getDelete_Yn())) {
+		if (board != null && "N".equals(board.getDeleteYn())) {
 			quaryResult = boardMapper.deleteBoard(idx);
 		}
 		
@@ -59,6 +60,11 @@ public class BoardServiceImpl implements BoardService {
 		}
 
 		return boardList;
+	}
+	
+	@Override
+	public Long viewPlus(Long idx) {
+		return boardMapper.viewPlus(idx);
 	}
 
 }

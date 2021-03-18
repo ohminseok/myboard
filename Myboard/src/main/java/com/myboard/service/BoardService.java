@@ -13,5 +13,7 @@ public interface BoardService {
 	public boolean dropBoard(Long idx);
 	
 	public List<BoardDTO> ListBoard();
+	
+	public Long viewPlus(Long idx);
 
 }

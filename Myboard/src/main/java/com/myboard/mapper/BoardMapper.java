@@ -20,5 +20,7 @@ public interface BoardMapper {
 	public List<BoardDTO> selectList();
 	
 	public int totalCount();
+	
+	public Long viewPlus(Long idx);
 
 }
