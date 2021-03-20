@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.myboard.domain.BoardDTO;
 import com.myboard.mapper.BoardMapper;
@@ -14,57 +15,60 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
 	private BoardMapper boardMapper;
-
+	
 	@Override
-	public boolean resigsterBoard(BoardDTO params) {
-		int quaryResult = 0;
+	public boolean register(BoardDTO params) {
 		
-		if(params.getIdx() == null) {
-			quaryResult = boardMapper.insertBoard(params);
-			
+		int queryResult = 0;
+		
+		if (params.getIdx() == null) {
+			queryResult = boardMapper.insertBoard(params);
 		} else {
-			quaryResult = boardMapper.updateBoard(params);
+			queryResult = boardMapper.updateBoard(params);
 		}
 		
-		return (quaryResult == 0) ? false : true;
+		return (queryResult == 1) ? true : false;
 	}
-
+	
 	@Override
-	public BoardDTO detailBoard(Long idx) {
-		// TODO Auto-generated method stub
-		return boardMapper.selectDetail(idx);
+	public BoardDTO Detail(Long idx) {
+		return boardMapper.detailBoard(idx);
 	}
-
-	@Override
-	public boolean dropBoard(Long idx) {
-		int quaryResult = 0;
 		
-		BoardDTO board = boardMapper.selectDetail(idx);
+	@Override
+	public boolean Delete(Long idx) {
+		
+		int queryResult = 0;
+		
+		BoardDTO board = boardMapper.detailBoard(idx);
 		
 		if (board != null && "N".equals(board.getDeleteYn())) {
-			quaryResult = boardMapper.deleteBoard(idx);
+			queryResult = boardMapper.deleteBoard(idx);
 		}
-		
-		return (quaryResult == 1) ? true : false;
+			
+		return (queryResult == 1) ? true : false;
 	}
-
+	
 	@Override
-	public List<BoardDTO> ListBoard() {
-		// TODO Auto-generated method stub
+	public List<BoardDTO> List() {
 		List<BoardDTO> boardList = Collections.emptyList();
 		
-		int boardTotalCount = boardMapper.totalCount();
+		int boardTotalCount = boardMapper.totalBoardCount();
 		
 		if (boardTotalCount > 0) {
-			boardList = boardMapper.selectList();
+			
+			boardList = boardMapper.listBoard();
 		}
-
+		
 		return boardList;
 	}
 	
 	@Override
-	public Long viewPlus(Long idx) {
-		return boardMapper.viewPlus(idx);
+	public int Count(Long idx) {
+		return boardMapper.plusView(idx);
 	}
-
+		
 }
+	
+	
+

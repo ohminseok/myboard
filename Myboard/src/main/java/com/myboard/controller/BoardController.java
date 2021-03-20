@@ -19,92 +19,85 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	
-	@GetMapping(value ="/myboard/write.do")
-	public String openWriter(@RequestParam(value ="idx" , required = false) Long idx,Model model) {
-		
+	@GetMapping(value = "/myboard/write.do")
+	public String openWrtie(@RequestParam(value = "idx", required = false) Long idx , Model model) {
 		if (idx == null) {
-			model.addAttribute("board",new BoardDTO());
+			model.addAttribute("board", new BoardDTO());
 		} else {
-			BoardDTO board = boardService.detailBoard(idx);
+			BoardDTO board = boardService.Detail(idx);
 			
 			if (board == null) {
 				return "redirect:/myboard/index.do";
 			}
+			
 			model.addAttribute("board",board);
 		}
+		
 		return "myboard/write";
 	}
 	
 	@PostMapping(value = "/myboard/register.do")
-	public String registerBoard(final BoardDTO params) {
+	public String registerBoard(BoardDTO params) {
+		boolean isRegisterd = boardService.register(params);
+		
 		try {
-			boolean isRegisterd = boardService.resigsterBoard(params);
-				
 			if (isRegisterd == false) {
-				//게시글 등록 실패
-				System.out.println("실패");
+				return "redirect:/myboard/index.do";
 			}
 			
 		} catch (DataAccessException e) {
-			//데이터베이스 치러 실패
-			System.out.println("실패1");
+			
 		} catch (Exception e) {
-			//시스템 문제
-			System.out.println("실패2");
-	}
+			
+		}
+		
 		return "redirect:/myboard/index.do";
-
 	}
 	
 	@GetMapping(value = "/myboard/index.do")
-	public String openBoardList(Model model) {
-		List<BoardDTO> boardList = boardService.ListBoard();
-		model.addAttribute("boardList",boardList);
+	public String ListBoard(Model model) {
+		List<BoardDTO> boardList = boardService.List();
+		
+		model.addAttribute("boardList", boardList);
 		
 		return "myboard/index";
 	}
 	
 	@GetMapping(value = "/myboard/view.do")
-	public String openBoardDetail(@RequestParam(value = "idx", required = false) Long idx,Model model) {
+	public String DetailBoard(@RequestParam(value = "idx" , required = false) Long idx,Model model) {
+		
 		if (idx == null) {
-			//아예 번호가 없을때
 			return "redirect:/myboard/index.do";
 		}
-		BoardDTO board = boardService.detailBoard(idx);
+		
+		BoardDTO board = boardService.Detail(idx);
 		if (board == null && "Y".equals(board.getDeleteYn())) {
-			//내용이 비었거나 삭제된 글 일떄
-			return "/myboard/index.do";
+			
+			return "redirect:/myboard/index.do";
 		}
+		
 		model.addAttribute("board",board);
-		boardService.viewPlus(idx);
+		boardService.Count(idx);
+		
 		
 		return "myboard/view";
 	}
 	
 	@PostMapping(value = "/myboard/delete.do")
-	public String deleteBoard(@RequestParam(value = "idx" , required = false) Long idx) {
-		if (idx == null) {
-			System.out.println("실패1");
-			return "redirect:/myboard/list.do";
-		}
-		
-		try {
-		
-			boolean isDeleted = boardService.dropBoard(idx);
-		
-			if (isDeleted == false) {
-				//실패 메세지
-				System.out.println("실패2");
+	public String DeleteBoard(@RequestParam(value = "idx" ,required = false) Long idx) {
+		boolean isDeleted = boardService.Delete(idx);
+			
+			try {
+				if (isDeleted == false) {
+					return "redirect:/myboard/index.do";
+				}
+				
+			} catch (DataAccessException e) {
+				
+			} catch (Exception e) {
+				
 			}
-		
-		}catch(DataAccessException e) {
-			//데이터 베이스 처리과정 문제
-			System.out.println("실패3");
-		}catch(Exception e) {
-			System.out.println("실패4");
+			
+			return "redirect:/myboard/index.do";
 		}
-		
-		return "redirect:/myboard/list.do";
-	}
 }

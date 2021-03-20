@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="board/layout/basic">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<th:block layout:fragment="title">
 		<title>this is view page</title>
 	</th:block>
@@ -7,6 +7,13 @@
 	<th:block layout:fragment="content">
 		<div class="card-content">
 			<form class="form-horizontal form-view" th:object="${board}">
+				<label>공지 등록 여부</label>	
+				<tr th:text="*{noticeYn}"></tr>
+				
+				<label>비밀 여부</label>
+				<tr th:text="*{secretYn}"></tr>
+			
+			
 				<div class="form-group">
 					<label for="inp-type-1" class="col-sm-2 control-label">제목</label>
 					<div class="col-sm-10">

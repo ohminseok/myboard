@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.myboard.mapper.BoardMapper">
-	<sql id="BoardColumns">
+	
+	<sql id="boardColumns">
 		idx,
 		title,
 		content,
@@ -17,37 +18,38 @@
 	
 	<insert id="insertBoard" parameterType="BoardDTO">
 		INSERT INTO tb_myboard (
-			<include refid="BoardColumns"/>
+			<include refid="boardColumns"/>
 		) VALUES (
-				#{idx},
-				#{title},
-				#{content},
-				#{writer},
-				0,
-				IFNULL(#{noticeYn} , 'N'),
-				IFNULL(#{secretYn} , 'N'),				
-				'N',
-				now(),
-				null,
-				null
+			#{idx},
+			#{title},
+			#{content},
+			#{writer},
+			0,
+			IFNULL(#{noticeYn} , 'N'),
+			IFNULL(#{secretYn} , 'N'),
+			'N',
+			NOW(),
+			NULL,
+			NULL
 		)
 	</insert>
 	
-	<select id="selectDetail" parameterType="Long" resultType="BoardDTO">
+	<select id="detailBoard" parameterType="long" resultType="BoardDTO">
 		SELECT
-			<include refid="BoardColumns" />
+			<include refid="boardColumns" />
 		FROM
 			tb_myboard
 		WHERE
-			idx = #{idx}	
+			idx = #{idx}
 		AND
-			delete_yn = 'N'		
+			delete_yn = 'N'
 	</select>
 	
 	<update id="updateBoard" parameterType="BoardDTO">
-		UPDATE tb_myboard
+		UPDATE 
+			tb_myboard
 		SET
-			update_time = now(),
+			update_time = NOW(),
 			title = #{title},
 			content = #{content},
 			writer = #{writer},
@@ -58,44 +60,43 @@
 	</update>
 	
 	<update id="deleteBoard" parameterType="long">
-		UPDATE tb_myboard
+		UPDATE
+			tb_myboard
 		SET
 			delete_yn = 'Y',
-			delete_time = now()
+			delete_time = NOW()
 		WHERE
-			idx = #{idx}	
+			idx = #{idx}		
 	</update>
 	
-	<select id="selectList" parameterType="BoardDTO" resultType="BoardDTO">
+	<select id="listBoard" parameterType="BoardDTO" resultType="BoardDTO">
 		SELECT
-			<include refid="BoardColumns" />
+			<include refid="boardColumns" />
 		FROM
 			tb_myboard
-		WHERE
-			delete_yn = 'N'
 		ORDER BY
 			notice_yn ASC,
 			idx DESC,
-			insert_time DESC			
+			insert_time DESC
+					
 	</select>
 	
-	<select id="totalCount" parameterType="BoardDTO" resultType="int">
+	<select id="totalBoardCount" resultType="int">
 		SELECT
 			count(*)
-		FROM
+		FROM	
 			tb_myboard
 		WHERE
 			delete_yn = 'N'		
 	</select>
 	
-	<update id="viewPlus" parameterType="long">
-		UPDATE tb_myboard
+	<update id="plusView" parameterType="long">
+		UPDATE 
+			tb_myboard
 		SET
 			view_cnt = view_cnt + 1
 		WHERE
-			idx = #{idx}	
+			idx = #{idx}		
 	</update>
 	
-	
-
 </mapper>

@@ -10,13 +10,33 @@ import org.springframework.util.CollectionUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myboard.domain.BoardDTO;
+import com.myboard.domain.MemberDTO;
 import com.myboard.mapper.BoardMapper;
+import com.myboard.mapper.MemberMapper;
 
 @SpringBootTest
 public class MappersTests {
 	
 	@Autowired
 	private BoardMapper boardMapper;
+	
+	@Autowired 
+	private MemberMapper memberMapper;
+	
+	@Test
+	void memberOfInsert() {
+		MemberDTO member = new MemberDTO();
+		member.setIdentify("첫번쨰");
+		member.setPassword("123456");
+		member.setEmail("123@naver.com");
+		
+		int result = memberMapper.insertMember(member);
+	}
+	
+	@Test
+	void memberOfList() {
+		
+	}
 	
 	@Test
 	void tesfOfInsert() {
@@ -31,8 +51,7 @@ public class MappersTests {
 	
 	@Test
 	void testOfDetail() {
-		BoardDTO board = boardMapper.selectDetail((long)1);
-		
+		BoardDTO board = boardMapper.detailBoard((long)30);
 		try {
 			String boardJson = new ObjectMapper().writeValueAsString(board);
 			System.out.println("===========================");
@@ -51,11 +70,11 @@ public class MappersTests {
 		params.setTitle("수정1");
 		params.setContent("수정1");
 		params.setWriter("수정1");
-		params.setIdx((long)1);
+		params.setIdx((long)30);
 		
 		int result = boardMapper.updateBoard(params);
 		
-		BoardDTO board = boardMapper.selectDetail((long)1);
+		BoardDTO board = boardMapper.detailBoard((long)30);
 		try {
 			String boardJson = new ObjectMapper().writeValueAsString(board);
 			System.out.println("===========================");
@@ -71,10 +90,10 @@ public class MappersTests {
 	@Test
 	void testOfDelete() {
 		
-		int result = boardMapper.deleteBoard((long)1);
+		int result = boardMapper.deleteBoard((long)30);
 		
 		if (result == 1) {
-			BoardDTO board = boardMapper.selectDetail((long)1);
+			BoardDTO board = boardMapper.detailBoard((long)30);
 			try {
 				String boardJson = new ObjectMapper().writeValueAsString(board);
 				System.out.println("===========================");
@@ -103,10 +122,11 @@ public class MappersTests {
 	
 	@Test
 	void testOfList() {
-		int boardTotalCount = boardMapper.totalCount();
+		BoardDTO params = new BoardDTO();
+		int boardTotalCount = boardMapper.totalBoardCount();
 		
 		if (boardTotalCount > 0) {
-			List<BoardDTO> boardList = boardMapper.selectList();
+			List<BoardDTO> boardList = boardMapper.listBoard();
 			
 			if (CollectionUtils.isEmpty(boardList) == false) {
 				for (BoardDTO board : boardList) {
@@ -119,6 +139,8 @@ public class MappersTests {
 			}
 		}
 	}
+	
+
 	
 
 }

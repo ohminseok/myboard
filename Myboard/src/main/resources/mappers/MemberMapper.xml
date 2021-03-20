@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myboard.mapper.MemberMapper">
+	
+	<sql id="memberColumns">
+		num,
+		id,
+		pwd,
+		mail,
+		rsn,
+		insert_time
+	</sql>
+	
+	<insert id="insertMember" parameterType="MemberDTO">
+		INSERT INTO tb_mymember (
+			<include refid="memberColumns" />
+		) VALUES (
+			#{number},
+			#{identify},
+			#{password},
+			#{email},
+			'N',
+			NOW()
+		)
+	</insert>
+	
+	<select id="listMember" parameterType="MemberDTO" resultType="MemberDTO">
+		SELECT 
+			<include refid="memberColumns" />
+		FROM
+			tb_mymember
+		WHERE
+			rsn = 'N'	
+		ORDER BY
+			num asc,
+			insert_time asc	
+	</select>
+	
+	<select id="totalMemberCount" parameterType="MemberDTO" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			tb_mymember
+		WHERE
+			rsn = 'N'		
+	</select>
+
+</mapper>

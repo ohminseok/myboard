@@ -6,14 +6,14 @@ import com.myboard.domain.BoardDTO;
 
 public interface BoardService {
 	
-	public boolean resigsterBoard(BoardDTO params);
+	public boolean register(BoardDTO params);
 	
-	public BoardDTO detailBoard(Long idx);
+	public BoardDTO Detail(Long idx);
 	
-	public boolean dropBoard(Long idx);
+	public boolean Delete(Long idx);
 	
-	public List<BoardDTO> ListBoard();
+	public List<BoardDTO> List();
 	
-	public Long viewPlus(Long idx);
+	public int Count(Long idx);
 
 }
