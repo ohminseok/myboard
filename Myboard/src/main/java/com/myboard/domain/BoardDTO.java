@@ -17,7 +17,7 @@ public class BoardDTO {
 	
 	private String writer;
 	
-	private String viewCnt;
+	private int viewCnt;
 	
 	private String noticeYn;
 	

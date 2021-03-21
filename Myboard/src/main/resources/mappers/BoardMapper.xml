@@ -17,8 +17,8 @@
 	</sql>
 	
 	<insert id="insertBoard" parameterType="BoardDTO">
-		INSERT INTO tb_myboard (
-			<include refid="boardColumns"/>
+		INSERT INTO tb_myboard(
+			<include refid="boardColumns" />
 		) VALUES (
 			#{idx},
 			#{title},
@@ -34,29 +34,27 @@
 		)
 	</insert>
 	
-	<select id="detailBoard" parameterType="long" resultType="BoardDTO">
+	<select id="detailBoard" resultType="BoardDTO" parameterType="long">
 		SELECT
 			<include refid="boardColumns" />
 		FROM
-			tb_myboard
+			tb_myboard	
 		WHERE
 			idx = #{idx}
 		AND
-			delete_yn = 'N'
+			delete_yn = 'N'		
 	</select>
 	
 	<update id="updateBoard" parameterType="BoardDTO">
-		UPDATE 
+		UPDATE
 			tb_myboard
 		SET
 			update_time = NOW(),
 			title = #{title},
 			content = #{content},
-			writer = #{writer},
-			notice_yn = IFNULL(#{noticeYn} , 'N'),
-			secret_yn = IFNULL(#{secretYn} , 'N')
+			writer = #{writer}
 		WHERE
-			idx = #{idx}
+			idx = #{idx}		
 	</update>
 	
 	<update id="deleteBoard" parameterType="long">
@@ -67,6 +65,7 @@
 			delete_time = NOW()
 		WHERE
 			idx = #{idx}		
+	
 	</update>
 	
 	<select id="listBoard" parameterType="BoardDTO" resultType="BoardDTO">
@@ -74,29 +73,29 @@
 			<include refid="boardColumns" />
 		FROM
 			tb_myboard
+		WHERE
+			delete_yn = 'N'
 		ORDER BY
 			notice_yn ASC,
 			idx DESC,
-			insert_time DESC
-					
+			insert_time DESC			
 	</select>
 	
-	<select id="totalBoardCount" resultType="int">
+	<select id="totalBoardCount" parameterType="BoardDTO" resultType="int">
 		SELECT
 			count(*)
-		FROM	
+		FROM
 			tb_myboard
 		WHERE
 			delete_yn = 'N'		
 	</select>
 	
 	<update id="plusView" parameterType="long">
-		UPDATE 
+		UPDATE
 			tb_myboard
 		SET
 			view_cnt = view_cnt + 1
 		WHERE
 			idx = #{idx}		
 	</update>
-	
 </mapper>

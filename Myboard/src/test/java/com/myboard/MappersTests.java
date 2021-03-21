@@ -51,7 +51,7 @@ public class MappersTests {
 	
 	@Test
 	void testOfDetail() {
-		BoardDTO board = boardMapper.detailBoard((long)30);
+		BoardDTO board = boardMapper.detailBoard((long)123);
 		try {
 			String boardJson = new ObjectMapper().writeValueAsString(board);
 			System.out.println("===========================");
@@ -70,11 +70,11 @@ public class MappersTests {
 		params.setTitle("수정1");
 		params.setContent("수정1");
 		params.setWriter("수정1");
-		params.setIdx((long)30);
+		params.setIdx((long)123);
 		
 		int result = boardMapper.updateBoard(params);
 		
-		BoardDTO board = boardMapper.detailBoard((long)30);
+		BoardDTO board = boardMapper.detailBoard((long)123);
 		try {
 			String boardJson = new ObjectMapper().writeValueAsString(board);
 			System.out.println("===========================");
@@ -90,10 +90,10 @@ public class MappersTests {
 	@Test
 	void testOfDelete() {
 		
-		int result = boardMapper.deleteBoard((long)30);
+		int result = boardMapper.deleteBoard((long)123);
 		
 		if (result == 1) {
-			BoardDTO board = boardMapper.detailBoard((long)30);
+			BoardDTO board = boardMapper.detailBoard((long)123);
 			try {
 				String boardJson = new ObjectMapper().writeValueAsString(board);
 				System.out.println("===========================");

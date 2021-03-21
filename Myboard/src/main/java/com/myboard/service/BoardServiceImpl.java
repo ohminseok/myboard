@@ -18,44 +18,44 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public boolean register(BoardDTO params) {
-		
-		int queryResult = 0;
+		int quaryResult = 0;
 		
 		if (params.getIdx() == null) {
-			queryResult = boardMapper.insertBoard(params);
+			quaryResult = boardMapper.insertBoard(params);
 		} else {
-			queryResult = boardMapper.updateBoard(params);
+			quaryResult = boardMapper.updateBoard(params);
 		}
 		
-		return (queryResult == 1) ? true : false;
+		
+		return (quaryResult == 1) ? true : false;
 	}
 	
 	@Override
 	public BoardDTO Detail(Long idx) {
+		
 		return boardMapper.detailBoard(idx);
 	}
-		
+	
 	@Override
-	public boolean Delete(Long idx) {
-		
-		int queryResult = 0;
+	public boolean delete(Long idx) {
+		int quaryResult = 0;
 		
 		BoardDTO board = boardMapper.detailBoard(idx);
 		
 		if (board != null && "N".equals(board.getDeleteYn())) {
-			queryResult = boardMapper.deleteBoard(idx);
+			quaryResult = boardMapper.deleteBoard(idx);
 		}
-			
-		return (queryResult == 1) ? true : false;
+		
+		return (quaryResult == 1) ? true : false;
 	}
 	
 	@Override
 	public List<BoardDTO> List() {
 		List<BoardDTO> boardList = Collections.emptyList();
 		
-		int boardTotalCount = boardMapper.totalBoardCount();
+		int totalCount = boardMapper.totalBoardCount();
 		
-		if (boardTotalCount > 0) {
+		if (totalCount > 0) {
 			
 			boardList = boardMapper.listBoard();
 		}
@@ -64,9 +64,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int Count(Long idx) {
+	public int ViewPlus(Long idx) {
+		
 		return boardMapper.plusView(idx);
 	}
+	
+	
 		
 }
 	

@@ -24,5 +24,7 @@ public interface BoardMapper {
 	public int plusView(Long idx);
 	
 	
+	
+	
 
 }

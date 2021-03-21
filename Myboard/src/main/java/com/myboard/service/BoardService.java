@@ -10,10 +10,10 @@ public interface BoardService {
 	
 	public BoardDTO Detail(Long idx);
 	
-	public boolean Delete(Long idx);
+	public boolean delete(Long idx);
 	
 	public List<BoardDTO> List();
 	
-	public int Count(Long idx);
+	public int ViewPlus(Long idx);
 
 }
