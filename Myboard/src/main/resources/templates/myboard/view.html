@@ -116,22 +116,19 @@
 			/*<![CDATA[*/
 			
 			function deleteBoard(idx) {
-				
-				if(confirm(idx + "번 게시글을 삭제하시겠습니까?")) {
-					
-					var uri = /* [[ @{/myboard/delete.do} ]] */;
+
+				if (confirm(idx + "번 게시글을 삭제할까요?")) {
+					var uri = /*[[ @{/myboard/delete.do} ]]*/;
 					var html = "";
-					
+
 					html += '<form name="dataForm" action="'+uri+'" method="post">';
-					html += '<input type="hidden" name="idx" value="'+idx+'">';
+						html += '<input type="hidden" name="idx" value="'+idx+'" />';
 					html += '</form>';
-					
+
 					$("body").append(html);
 					document.dataForm.submit();
 				}
-			
-			}	
-			
+			}
 			/*[- end of function -]*/
 
 			/*]]>*/

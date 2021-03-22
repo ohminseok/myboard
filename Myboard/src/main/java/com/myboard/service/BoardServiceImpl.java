@@ -18,6 +18,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public boolean register(BoardDTO params) {
+		
 		int quaryResult = 0;
 		
 		if (params.getIdx() == null) {
@@ -26,18 +27,17 @@ public class BoardServiceImpl implements BoardService {
 			quaryResult = boardMapper.updateBoard(params);
 		}
 		
-		
 		return (quaryResult == 1) ? true : false;
 	}
 	
 	@Override
 	public BoardDTO Detail(Long idx) {
-		
 		return boardMapper.detailBoard(idx);
 	}
 	
 	@Override
 	public boolean delete(Long idx) {
+		
 		int quaryResult = 0;
 		
 		BoardDTO board = boardMapper.detailBoard(idx);
@@ -53,24 +53,20 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardDTO> List() {
 		List<BoardDTO> boardList = Collections.emptyList();
 		
-		int totalCount = boardMapper.totalBoardCount();
+		int TotalCount = boardMapper.totalBoardCount();
 		
-		if (totalCount > 0) {
-			
+		if( TotalCount > 0 ) {
 			boardList = boardMapper.listBoard();
 		}
+		
 		
 		return boardList;
 	}
 	
 	@Override
 	public int ViewPlus(Long idx) {
-		
 		return boardMapper.plusView(idx);
 	}
-	
-	
-		
 }
 	
 	

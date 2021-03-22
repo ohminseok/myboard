@@ -50,6 +50,8 @@
 			tb_myboard
 		SET
 			update_time = NOW(),
+			notice_yn = IFNULL(#{noticeYn} , 'N'),
+			secret_yn = IFNULL(#{secretYn} , 'N'),
 			title = #{title},
 			content = #{content},
 			writer = #{writer}
