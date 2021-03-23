@@ -7,12 +7,14 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.myboard.constant.Method;
 import com.myboard.domain.BoardDTO;
 import com.myboard.mapper.BoardMapper;
+import com.myboard.paging.Criteria;
 import com.myboard.service.BoardService;
 import com.myboard.util.UiUtils;
 
@@ -61,13 +63,13 @@ public class BoardController extends UiUtils {
 	}
 	
 	@GetMapping(value = "/myboard/index.do")
-	public String openList(Model model) {
+	public String openList(@ModelAttribute("criteria") Criteria criteria, Model model) {
 		
-		List<BoardDTO> boardList = boardService.List();
+		List<BoardDTO> boardList = boardService.List(criteria);
 		
 		model.addAttribute("boardList", boardList);
 		
-		return "/myboard/index";
+		return "myboard/index";
 	}
 	
 	@GetMapping(value = "/myboard/view.do")

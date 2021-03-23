@@ -9,6 +9,8 @@ import org.springframework.util.CollectionUtils;
 
 import com.myboard.domain.BoardDTO;
 import com.myboard.mapper.BoardMapper;
+import com.myboard.paging.Criteria;
+import com.myboard.paging.PaginationInfo;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -50,13 +52,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardDTO> List() {
+	public List<BoardDTO> List(Criteria criteria) {
 		List<BoardDTO> boardList = Collections.emptyList();
 		
-		int TotalCount = boardMapper.totalBoardCount();
+		int TotalCount = boardMapper.totalBoardCount(criteria);
+	
 		
 		if( TotalCount > 0 ) {
-			boardList = boardMapper.listBoard();
+			boardList = boardMapper.listBoard(criteria);
 		}
 		
 		

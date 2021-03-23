@@ -1,138 +1,81 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="myboard/layout/basic">
+	<th:block layout:fragment="title">
+		<title>thiThe page is a write page</title>
+	</th:block>
 
-<head>
+	<th:block layout:fragment="content">
+		<div class="card-content">
+			<form class="form-horizontal" th:action="@{/myboard/register.do}" th:object="${board}" method="post" onsubmit="return registerBoard(this)">
+				<!--/* update의 경우 서버로 전달할 게시글 번호 (PK) */-->
+				<input type="hidden" th:if="*{idx != null and idx > 0}" th:field="*{idx}" />
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>SB Admin 2 - Register</title>
-
-    <!-- Custom fonts for this template-->
-    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
-    <link
-        th:href="@{/https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i}"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
-
-</head>
-
-<body class="bg-gradient-primary">
-
-    <div class="container">
-
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-                    <div class="col-lg-7">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">게시글 등록</h1>
-                            </div>
-			<form th:action="@{/myboard/register.do}" th:object=${board} method="post" onsubmit="return registerBoard(this)" class="form-horizontal" >
-				<input type="hidden"  th:if="*{idx !=null AND idx > 0}"  th:field="*{idx}" />
 				<div class="form-group">
 					<label for="noticeYn" class="col-sm-2 control-label">공지글 설정</label>
-					<input type="checkbox" th:value="*{noticeYn}" id="noticeYn" name="noticeYn" th:checked="*{#strings.equals(noticeYn , 'Y')}" />
 					<div class="col-sm-10" style="margin-top: 10px;">
-						
+						<input type="checkbox" th:value="*{noticeYn}" id="noticeYn" name="noticeYn" th:checked="*{#strings.equals( noticeYn, 'Y' )}" />
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label class="col-sm-2 control-label">비밀글 설정</label>
-					<input type="checkbox" th:value="*{secretYn}" id="secretYn" name="secretYn" th:checked="*{#strings.equals( secretYn , 'Y')}" />
+					<label for="secretYn" class="col-sm-2 control-label">비밀글 설정</label>
 					<div class="col-sm-10" style="margin-top: 10px;">
-						
+						<input type="checkbox" th:value="*{secretYn}" id="secretYn" name="secretYn" th:checked="*{#strings.equals( secretYn, 'Y' )}" />
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="title" class="col-sm-2 control-label">제목</label>
-					<input type="text" th:field="*{title}" />
 					<div class="col-sm-10">
-						
+						<input type="text" th:field="*{title}" class="form-control" placeholder="제목을 입력해 주세요." />
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="writer" class="col-sm-2 control-label">이름</label>
-					<input type="text" th:field="*{writer}" />
 					<div class="col-sm-10">
-						
+						<input type="text" th:field="*{writer}" class="form-control" placeholder="이름을 입력해 주세요." />
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="content" class="col-sm-2 control-label">내용</label>
-					<textarea type="text" th:field="*{content}" />
 					<div class="col-sm-10">
-						
+						<textarea th:field="*{content}" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
 					</div>
 				</div>
 
 				<div class="btn_wrap text-center">
-					<a th:href="@{/myboard/index.do}"  class="btn btn-default waves-effect waves-light">뒤로가기</a>
+					<a th:href="@{/myboard/list.do}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
 					<button type="submit" class="btn btn-primary waves-effect waves-light">저장하기</button>
 				</div>
 			</form>
-                            <hr>
-                            <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="login.html">Already have an account? Login!</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+		</div>
+		<!-- /.card-content -->
+	</th:block>
 
-    </div>
+	<th:block layout:fragment="script">
+		<script th:inline="javascript">
+			/*<![CDATA[*/
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+			function registerBoard(form) {
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+				form.noticeYn.value = form.noticeYn.checked == false ? 'N' : 'Y';
+				form.secretYn.value = form.secretYn.checked == false ? 'N' : 'Y';
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+				var result = (
+						   isValid(form.title, "제목", null, null)
+						&& isValid(form.writer, "이름", null, null)
+						&& isValid(form.content, "내용", null, null)
+				);
 
-</body>
+				if ( result == false ) {
+					return false;
+				}
+			}
+			/*[- end of function -]*/
 
-<script th:inline="javascript">
- 	/*<![CDATA[*/
- 		
- 		function registerBoard(form) {
- 		
- 			form.noticeYn.value = form.noticeYn.checked == false ? 'N' : 'Y';
- 			form.secretYn.value = form.secretYn.checked == false ? 'N' : 'Y';
- 			
- 			var result = (
- 							isValid(form.title,"제목",null,null)
- 						&&	isValid(form.writer,"이름",null,null)
- 						&&	isValid(form.content,"내용",null,null)	
- 			
- 			);
- 			
- 			if (result == false) {
- 				return false;
- 			}
- 		}
- 		
- 		
- 	/*]]>*/
-				
-</script>
-
+			/*]]>*/
+		</script>
+	</th:block>
 </html>

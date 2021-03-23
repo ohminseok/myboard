@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BoardDTO {
+public class BoardDTO extends CommonDTO {
 	
 	private Long idx;
 	
@@ -23,12 +23,6 @@ public class BoardDTO {
 	
 	private String secretYn;
 	
-	private String deleteYn;
 	
-	private LocalDateTime insertTime;
-	
-	private LocalDateTime updateTime;
-	
-	private LocalDateTime deleteTime;
 
 }

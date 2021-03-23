@@ -80,10 +80,12 @@
 		ORDER BY
 			notice_yn ASC,
 			idx DESC,
-			insert_time DESC			
+			insert_time DESC	
+		LIMIT
+			#{paginationInfo.firstRecordIndex}, #{recordsPerPage}			
 	</select>
 	
-	<select id="totalBoardCount" parameterType="BoardDTO" resultType="int">
+	<select id="totalBoardCount" parameterType="Criteria" resultType="int">
 		SELECT
 			count(*)
 		FROM
