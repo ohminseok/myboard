@@ -52,14 +52,19 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardDTO> List(Criteria criteria) {
+	public List<BoardDTO> List(BoardDTO params) {
 		List<BoardDTO> boardList = Collections.emptyList();
 		
-		int TotalCount = boardMapper.totalBoardCount(criteria);
+		int TotalCount = boardMapper.totalBoardCount(params);
+		
+		PaginationInfo paginationInfo = new PaginationInfo(params);
+		paginationInfo.setTotalRecordCount(TotalCount);
+		
+		params.setPaginationInfo(paginationInfo);
 	
 		
 		if( TotalCount > 0 ) {
-			boardList = boardMapper.listBoard(criteria);
+			boardList = boardMapper.listBoard(params);
 		}
 		
 		

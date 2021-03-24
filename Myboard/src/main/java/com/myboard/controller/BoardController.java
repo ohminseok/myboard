@@ -63,9 +63,9 @@ public class BoardController extends UiUtils {
 	}
 	
 	@GetMapping(value = "/myboard/index.do")
-	public String openList(@ModelAttribute("criteria") Criteria criteria, Model model) {
+	public String openList(@ModelAttribute("params") BoardDTO params, Model model) {
 		
-		List<BoardDTO> boardList = boardService.List(criteria);
+		List<BoardDTO> boardList = boardService.List(params);
 		
 		model.addAttribute("boardList", boardList);
 		
@@ -84,6 +84,7 @@ public class BoardController extends UiUtils {
 				return "redirect:/myboard/index.do";
 			}
 			model.addAttribute("board", board);
+			boardService.ViewPlus(idx);
 		}
 		
 		return "myboard/view";

@@ -85,7 +85,7 @@
 			#{paginationInfo.firstRecordIndex}, #{recordsPerPage}			
 	</select>
 	
-	<select id="totalBoardCount" parameterType="Criteria" resultType="int">
+	<select id="totalBoardCount" parameterType="BoardDTO" resultType="int">
 		SELECT
 			count(*)
 		FROM
