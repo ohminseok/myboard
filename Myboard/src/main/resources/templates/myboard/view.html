@@ -17,7 +17,7 @@
 				<div class="form-group">
 					<label for="inp-type-2" class="col-sm-2 control-label">이름</label>
 					<div class="col-sm-10">
-						<p class="form-control" th:text="*{writer}"></p>
+						<p class="form-control" th:text="*{writer}" ></p>
 					</div>
 				</div>
 
@@ -31,14 +31,14 @@
 				<div class="form-group">
 					<label for="inp-type-5" class="col-sm-2 control-label">등록일</label>
 					<div class="col-sm-10">
-						<p class="form-control" th:text="*{#temporals.format( insertTime, 'yyyy-MM-dd' )}"></p>
+						<p class="form-control" th:text="*{#temporals.format( insertTime , 'yyyy-MM-dd' )}"></p>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="inp-type-5" class="col-sm-2 control-label">조회 수</label>
 					<div class="col-sm-10">
-						<p class="form-control" th:text="*{viewCnt}"></p>
+						<p class="form-control" th:text="*{viewCnt}" ></p>
 					</div>
 				</div>
 			</form>
@@ -90,21 +90,20 @@
 	<th:block layout:fragment="script">
 		<script th:inline="javascript">
 			/*<![CDATA[*/
-
 			function deleteBoard(idx) {
-
-				if (confirm(idx + "번 게시글을 삭제할까요?")) {
+				
+				if(confirm(idx + "번 글을 삭제하시겠습니까?")) {
 					var uri = /*[[ @{/myboard/delete.do} ]]*/;
-					var html = "";
-
+					var html ="";
+					
 					html += '<form name="dataForm" action="'+uri+'" method="post">';
 						html += '<input type="hidden" name="idx" value="'+idx+'" />';
 					html += '</form>';
-
+					
 					$("body").append(html);
-					document.dataForm.submit();
+					document.dataForm.submit();	
 				}
 			}
-			/*[- end of function -]*/
-			</script>
-			</th:block>
+			/*]]>*/
+		</script>
+	</th:block>

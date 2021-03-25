@@ -1,5 +1,6 @@
 package com.myboard;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -20,26 +21,8 @@ public class MappersTests {
 	@Autowired
 	private BoardMapper boardMapper;
 	
-	@Autowired 
-	private MemberMapper memberMapper;
-	
 	@Test
-	void memberOfInsert() {
-		MemberDTO member = new MemberDTO();
-		member.setIdentify("첫번쨰");
-		member.setPassword("123456");
-		member.setEmail("123@naver.com");
-		
-		int result = memberMapper.insertMember(member);
-	}
-	
-	@Test
-	void memberOfList() {
-		
-	}
-	
-	@Test
-	void tesfOfInsert() {
+	public void testOfInsert() {
 		BoardDTO params = new BoardDTO();
 		params.setTitle("테스트");
 		params.setContent("테스트");
@@ -50,97 +33,93 @@ public class MappersTests {
 	}
 	
 	@Test
-	void testOfDetail() {
-		BoardDTO board = boardMapper.detailBoard((long)123);
+	public void testOfDetail() {
+		BoardDTO board = boardMapper.detailBoard((long)32);
+		
 		try {
 			String boardJson = new ObjectMapper().writeValueAsString(board);
-			System.out.println("===========================");
-			System.out.println("boardJson = " + boardJson);
-			System.out.println("===========================");
+			
+			System.out.println("=============================");
+			System.out.println(boardJson);
+			System.out.println("=============================");
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
+		
 	}
 	
 	@Test
-	void testOfUpdate() {
+	public void testOfUpdate() {
 		BoardDTO params = new BoardDTO();
 		
-		params.setTitle("수정1");
-		params.setContent("수정1");
-		params.setWriter("수정1");
-		params.setIdx((long)123);
+		
+		params.setTitle("1");
+		params.setContent("1");
+		params.setWriter("1");
+		params.setIdx((long)32);
 		
 		int result = boardMapper.updateBoard(params);
 		
-		BoardDTO board = boardMapper.detailBoard((long)123);
-		try {
-			String boardJson = new ObjectMapper().writeValueAsString(board);
-			System.out.println("===========================");
-			System.out.println("boardJson = " + boardJson);
-			System.out.println("===========================");
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	
-	@Test
-	void testOfDelete() {
-		
-		int result = boardMapper.deleteBoard((long)123);
-		
 		if (result == 1) {
-			BoardDTO board = boardMapper.detailBoard((long)123);
+			
+			BoardDTO board = boardMapper.detailBoard((long)32);
+			
 			try {
 				String boardJson = new ObjectMapper().writeValueAsString(board);
-				System.out.println("===========================");
-				System.out.println("boardJson = " + boardJson);
-				System.out.println("===========================");
+				
+				System.out.println("======================");
+				System.out.println(boardJson);
+				System.out.println("======================");
 			} catch (JsonProcessingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
-			System.out.println("삭제가 안됬습니다");
+			System.out.println("망");
 		}
+		
+		
 	}
 	
 	@Test
-	void testOfMultiple() {
-		BoardDTO params = new BoardDTO();
-		for (int i=2; i<=49; i++) {
-			params.setTitle(i+"번째 제목");
-			params.setContent(i+"번째 내용");
-			params.setWriter(i+"번째 글쓴이");
+	public void testOfDelete() {
 		
-		int result = boardMapper.insertBoard(params);
-		}
-	}
-	
-	@Test
-	void testOfList() {
-		BoardDTO params = new BoardDTO();
-		int boardTotalCount = boardMapper.totalBoardCount();
+		int result = boardMapper.deleteBoard((long)32);
 		
-		if (boardTotalCount > 0) {
-			List<BoardDTO> boardList = boardMapper.listBoard();
-			
-			if (CollectionUtils.isEmpty(boardList) == false) {
-				for (BoardDTO board : boardList) {
-					System.out.println("========================");
-					System.out.println(board.getTitle());
-					System.out.println(board.getContent());
-					System.out.println(board.getWriter());
-					System.out.println("========================");
-				}
+		if (result == 1) {
+			try {
+				BoardDTO board = boardMapper.detailBoard((long)32);
+				String boardJson = new ObjectMapper().writeValueAsString(board);
+				
+				System.out.println("==================");
+				System.out.println(boardJson);
+				System.out.println("==================");
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
 	
-
-	
+	@Test
+	public void testOfList() {
+		int boardTotalCount = boardMapper.totalListCount();
+		
+		if (boardTotalCount > 0) {
+			
+			List<BoardDTO> boardList = boardMapper.listBoard();
+			
+			if (CollectionUtils.isEmpty(boardList)) {
+				for(BoardDTO board : boardList) {
+					System.out.println("============");
+					System.out.println(board.getTitle());
+					System.out.println(board.getContent());
+					System.out.println(board.getWriter());
+					System.out.println("============");
+				}
+			}
+		}
+	}
 
 }

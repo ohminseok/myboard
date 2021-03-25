@@ -53,27 +53,23 @@ public class PaginationInfo {
 	private void calculation() {
 		
 		totalPageCount = ((totalRecordCount - 1) / criteria.getRecordsPerPage()) + 1;
-		
 		if (criteria.getCurrentPageNo() > totalPageCount) {
 			criteria.setCurrentPageNo(totalPageCount);
 		}
 		
-		firstPage = ((criteria.getCurrentPageNo() -1) / criteria.getPageSize()) * criteria.getPageSize() + 1;
-				
-		lastPage =	(firstPage + criteria.getPageSize()) -1;
+		firstPage = ((criteria.getCurrentPageNo() - 1) / criteria.getPageSize()) * criteria.getPageSize() + 1;
 		
+		lastPage = firstPage + criteria.getPageSize() - 1;
 		if (lastPage > totalPageCount) {
-				lastPage = totalPageCount;
+			lastPage = totalPageCount;
 		}
 		
-		firstRecordIndex = (criteria.getCurrentPageNo() -1) * criteria.getRecordsPerPage();
+		firstRecordIndex = (criteria.getCurrentPageNo() - 1) * criteria.getRecordsPerPage();
 		
 		lastRecordIndex = criteria.getCurrentPageNo() * criteria.getRecordsPerPage();
-		
 		
 		hasPreviousPage = firstPage != 1;
 		
 		hasNextPage = (lastPage * criteria.getRecordsPerPage()) < totalPageCount;
-	
 	}
 }

@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+
 import com.myboard.domain.BoardDTO;
-import com.myboard.paging.Criteria;
+
 
 @Mapper
 public interface BoardMapper {
@@ -18,13 +19,13 @@ public interface BoardMapper {
 	
 	public int deleteBoard(Long idx);
 	
-	public List<BoardDTO> listBoard(BoardDTO params);
+	public List<BoardDTO> listBoard();
 	
-	public int totalBoardCount(BoardDTO params);
+	public int totalListCount();
 	
-	public int plusView(Long idx);
+	public int viewPlusBoard(Long idx);
 	
-	
+
 	
 	
 

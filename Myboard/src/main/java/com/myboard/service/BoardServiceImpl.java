@@ -19,61 +19,49 @@ public class BoardServiceImpl implements BoardService {
 	private BoardMapper boardMapper;
 	
 	@Override
-	public boolean register(BoardDTO params) {
-		
-		int quaryResult = 0;
+	public boolean registerBoard(BoardDTO params) {
+		int queryResult = 0;
 		
 		if (params.getIdx() == null) {
-			quaryResult = boardMapper.insertBoard(params);
+			queryResult = boardMapper.insertBoard(params);
 		} else {
-			quaryResult = boardMapper.updateBoard(params);
+			queryResult = boardMapper.updateBoard(params);
 		}
 		
-		return (quaryResult == 1) ? true : false;
+		return (queryResult == 1) ? true : false;
 	}
 	
 	@Override
-	public BoardDTO Detail(Long idx) {
+	public BoardDTO getDetailBoard(Long idx) {
 		return boardMapper.detailBoard(idx);
 	}
 	
 	@Override
-	public boolean delete(Long idx) {
-		
-		int quaryResult = 0;
+	public boolean deleteBoard(Long idx) {
+		int queryResult = 0;
 		
 		BoardDTO board = boardMapper.detailBoard(idx);
 		
 		if (board != null && "N".equals(board.getDeleteYn())) {
-			quaryResult = boardMapper.deleteBoard(idx);
+			
+			queryResult = boardMapper.deleteBoard(idx);
 		}
 		
-		return (quaryResult == 1) ? true : false;
+		return (queryResult == 1) ? true : false;
 	}
 	
 	@Override
-	public List<BoardDTO> List(BoardDTO params) {
+	public List<BoardDTO> getListBoard() {
 		List<BoardDTO> boardList = Collections.emptyList();
 		
-		int TotalCount = boardMapper.totalBoardCount(params);
+		int totalBoardCount = boardMapper.totalListCount();
 		
-		PaginationInfo paginationInfo = new PaginationInfo(params);
-		paginationInfo.setTotalRecordCount(TotalCount);
-		
-		params.setPaginationInfo(paginationInfo);
-	
-		
-		if( TotalCount > 0 ) {
-			boardList = boardMapper.listBoard(params);
+		if (totalBoardCount > 0) {
+			
+			boardList = boardMapper.listBoard();
 		}
 		
-		
 		return boardList;
-	}
-	
-	@Override
-	public int ViewPlus(Long idx) {
-		return boardMapper.plusView(idx);
 	}
 }
 	

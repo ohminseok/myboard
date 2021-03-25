@@ -7,14 +7,14 @@ import com.myboard.paging.Criteria;
 
 public interface BoardService {
 	
-	public boolean register(BoardDTO params);
+	public boolean registerBoard(BoardDTO params);
 	
-	public BoardDTO Detail(Long idx);
+	public BoardDTO getDetailBoard(Long idx);
 	
-	public boolean delete(Long idx);
+	public boolean deleteBoard(Long idx);
 	
-	public List<BoardDTO> List(BoardDTO params);
+	public List<BoardDTO> getListBoard();
 	
-	public int ViewPlus(Long idx);
+	public int getViewPlus(Long idx);
 
 }
