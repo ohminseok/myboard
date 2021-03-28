@@ -26,19 +26,20 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:if="${not #lists.isEmpty( boardList )}" th:each="row : ${boardList}">
+					<tr th:if="${not #lists.isEmpty( boardList )}" th:each="row:${boardList}">
 						<td scope="row" th:text="${#strings.equals( row.noticeYn, 'Y') ? '공지' : row.idx}"></td>
 						<td class="text-left">
-							<a th:href="@{/myboard/view.do( idx = ${row.idx} )}" th:text="${row.title}" ></a>
+							<a th:href="@{/myboard/view.do(idx = ${row.idx} )}" th:text="${row.title}"></a>
 						</td>
-						<td th:text="${row.title}"></td>
-						<td th:text="${#temporals.format( row.insertTime , 'yyyy-MM-dd' )}"></td>
+						<td th:text="${row.writer}"></td>
+						<td th:text="${#temporals.format(row.insertTime,'yyyy-MM-dd' )}"></td>
 						<td th:text="${row.viewCnt}"></td>
 					</tr>
 					
 					<tr th:unless="${not #lists.isEmpty( boardList )}">
-						<td colspan="5">자료가 없다.</td>
+						<td colspan="5">조회 할게 없다.</td>
 					</tr>
+					
 				</tbody>
 			</table>
 
@@ -50,9 +51,4 @@
 		</div>
 	</th:block>
 
-	<th:block layout:fragment="script">
-		<script th:inline="javascript">
-	
-		</script>
-	</th:block>
 </html>
