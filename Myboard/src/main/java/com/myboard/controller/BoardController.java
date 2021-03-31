@@ -25,9 +25,10 @@ public class BoardController extends UiUtils {
 	private BoardService boardService;
 	
 	@GetMapping(value = "/myboard/write.do")
-	public String openWrite(@RequestParam(value = "idx" , required = false) Long idx, Model model) {
+	public String openWrite(@RequestParam(value = "idx" , required = false) Long idx,Model model) {
+		
 		if (idx == null) {
-			model.addAttribute("board", new BoardDTO());
+			model.addAttribute("board",new BoardDTO());
 		} else {
 			BoardDTO board = boardService.getDetailBoard(idx);
 			
@@ -36,29 +37,29 @@ public class BoardController extends UiUtils {
 			}
 			model.addAttribute("board",board);
 		}
+		
 		return "myboard/write";
 	}
 	
 	@PostMapping(value = "/myboard/register.do")
-	public String registerBoard(final BoardDTO params, Model model) {
+	public String registerBoard(BoardDTO params,Model model) {
+		
 		try {
 			boolean isRegistered = boardService.registerBoard(params);
 			if (isRegistered == false) {
-				return showMessageWithRedirect("게시글 등록에 실패하였습니다.", "/myboard/index.do", Method.GET, null, model);
+				return showMessageWithRedirect("게시글 등록 실패", "/myboard/index.do", Method.GET, null, model);
 			}
 		} catch (DataAccessException e) {
-			return showMessageWithRedirect("데이터베이스 처리 과정에 문제가 발생하였습니다.", "/myboard/index.do", Method.GET, null, model);
-
+			return showMessageWithRedirect("데이터 실패", "/myboard/index.do", Method.GET, null, model);
 		} catch (Exception e) {
-			return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/myboard/index.do", Method.GET, null, model);
+			return showMessageWithRedirect("시스템 실패", "/myboard/index.do", Method.GET, null, model);
 		}
-
-		return showMessageWithRedirect("게시글 등록이 완료되었습니다.", "/myboard/index.do", Method.GET, null, model);
+		return showMessageWithRedirect("게시글 성공", "/myboard/index.do", Method.GET, null, model);
 	}
 	
 	@GetMapping(value = "/myboard/index.do")
-	public String openList(Model model) {
-		List<BoardDTO> boardList = boardService.getListBoard();
+	public String openList(@ModelAttribute("params") BoardDTO params,Model model) {
+		List<BoardDTO> boardList = boardService.getListBoard(params);
 		
 		model.addAttribute("boardList",boardList);
 		
@@ -66,37 +67,37 @@ public class BoardController extends UiUtils {
 	}
 	
 	@GetMapping(value = "/myboard/view.do")
-	public String openViewDetail(@RequestParam(value="idx" , required = false) Long idx,Model model) {
+	public String openDetail(@RequestParam(value = "idx" , required = false)Long idx ,Model model) {
+		
 		if (idx == null) {
-			return "redirect:/myboard/index.do";
+			return showMessageWithRedirect("게시글 종범", "/myboard/index.do", Method.GET, null, model);
 		} else {
 			BoardDTO board = boardService.getDetailBoard(idx);
-			if (board == null || "Y".equals(board.getDeleteYn())) {
-				return "redirect:/myboard/index.do";
-			}
 			
-			model.addAttribute("board",board);
+			if(board == null || "Y".equals(board.getDeleteYn())) {
+				return showMessageWithRedirect("열람실패", "/myboard/index.do", Method.GET, null, model);
+			}
+			model.addAttribute("board", board);
+			boardService.getViewPlus(idx);
 		}
-		return "/myboard/view";
+		return "myboard/view";
 	}
 	
 	@PostMapping(value = "/myboard/delete.do")
-	public String deleteBoard(@RequestParam(value = "idx",required = false)Long idx,Model model) {
+	public String openDelete(@RequestParam(value = "idx", required = false)Long idx,Model model) {
 		try {
 			boolean isDeleted = boardService.deleteBoard(idx);
 			if (isDeleted == false) {
-				return showMessageWithRedirect("게시글 삭제에 실패하였습니다.", "/myboard/index.do", Method.GET, null, model);
+				return showMessageWithRedirect("게시글 삭제 실패", "/myboard/index.do", Method.GET, null, model);
 			}
 		} catch (DataAccessException e) {
-			return showMessageWithRedirect("데이터베이스 처리 과정에 문제가 발생하였습니다.", "/myboard/index.do", Method.GET, null, model);
-
+			return showMessageWithRedirect("데이터 문제", "/myboard/index.do", Method.GET, null, model);
 		} catch (Exception e) {
-			return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/myboard/index.do", Method.GET, null, model);
+			return showMessageWithRedirect("시스템 문제", "/myboard/index.do", Method.GET, null, model);
 		}
-
-		return showMessageWithRedirect("게시글 삭제가 완료되었습니다.", "/myboard/index.do", Method.GET, null, model);
+		
+		return showMessageWithRedirect("게시글 삭제 성공", "/myboard/index.do", Method.GET, null, model);
 	}
-	
 
 		
 }

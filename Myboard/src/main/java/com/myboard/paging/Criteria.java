@@ -16,9 +16,9 @@ public class Criteria {
 	
 	private int pageSize;
 	
-	private String searchType;
+	private int searchKeyword;
 	
-	private String searchKeyword;
+	private int searchType;
 	
 	public Criteria() {
 		this.currentPageNo = 1;
@@ -27,17 +27,15 @@ public class Criteria {
 	}
 	
 	public String makeQueryString(int pageNo) {
-		
 		UriComponents uriComponents = UriComponentsBuilder.newInstance()
-						.queryParam("currentPageNo", pageNo)
-						.queryParam("recordsPerPage", recordsPerPage)
-						.queryParam("pageSize", pageSize)
-						.queryParam("searchType", searchType)
-						.queryParam("searchKeyword", searchKeyword)
-						.build()
-						.encode();
+							.queryParam("currentPageNo", pageNo)
+							.queryParam("recordsPerPage", recordsPerPage)
+							.queryParam("pageSize", pageSize)
+							.queryParam("searchType", searchType)
+							.queryParam("searchKeword", searchKeyword)
+							.build()
+							.encode();
 		
-		return uriComponents.toUriString();
+		return uriComponents.toString();
 	}
-
 }

@@ -33,7 +33,6 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public BoardDTO getDetailBoard(Long idx) {
-		
 		return boardMapper.detailBoard(idx);
 	}
 	
@@ -44,30 +43,34 @@ public class BoardServiceImpl implements BoardService {
 		BoardDTO board = boardMapper.detailBoard(idx);
 		
 		if (board !=null && "N".equals(board.getDeleteYn())) {
-			queryResult =  boardMapper.deleteBoard(idx);
+			queryResult = boardMapper.deleteBoard(idx);
 		}
 		
 		return (queryResult == 1) ? true : false;
-		
 	}
 	
 	@Override
-	public List<BoardDTO> getListBoard() {
-		List<BoardDTO> boardList = Collections.emptyList();
-		
-		int totalCount = boardMapper.totalListCount();
-		
-		if (totalCount > 0) {
-			boardList = boardMapper.listBoard();
-		}
-		
-		return boardList;
+	public List<BoardDTO> getListBoard(BoardDTO params) {
+	List<BoardDTO> boardList = Collections.emptyList();
+	
+	int count = boardMapper.totalListCount(params);
+	PaginationInfo paginationInfo = new PaginationInfo(params);
+	paginationInfo.setTotalRecordCount(count);
+	
+	params.setPaginationInfo(paginationInfo);
+	
+	if (count > 0) {
+		boardList = boardMapper.listBoard(params);
+	}
+	return boardList;
 	}
 	
 	@Override
 	public int getViewPlus(Long idx) {
 		return boardMapper.viewPlusBoard(idx);
 	}
+	
+	
 }
 	
 	

@@ -19,19 +19,18 @@
 	<insert id="insertBoard" parameterType="BoardDTO">
 		INSERT INTO tb_myboard(
 			<include refid="boardColumns" />
-		) VALUES(
-			  #{idx}
-			, #{title}
-			, #{content}
-			, #{writer}
-			, 0
-			, IFNULL(#{noticeYn}, 'N')
-			, IFNULL(#{secretYn}, 'N')
-			, 'N'
-			, NOW()
-			, NULL
-			, NULL
-		
+		) VALUES (
+			#{idx},
+			#{title},
+			#{content},
+			#{writer},
+			0,
+			IFNULL(#{noticeYn}, 'N'),
+			IFNULL(#{secretYn}, 'N'),
+			'N',
+			NOW(),
+			NULL,
+			NULL
 		)
 	</insert>
 	
@@ -57,7 +56,7 @@
 			notice_yn = IFNULL(#{noticeYn} , 'N'),
 			secret_yn = IFNULL(#{secretYn} , 'N')
 		WHERE
-			idx = #{idx}		
+			idx = #{idx}	
 	</update>
 	
 	<update id="deleteBoard" parameterType="long">
@@ -65,7 +64,7 @@
 			tb_myboard
 		SET
 			delete_yn = 'Y',
-			delete_time = NOW()
+			update_time = NOW()
 		WHERE
 			idx = #{idx}		
 	</update>
@@ -76,11 +75,13 @@
 		FROM
 			tb_myboard
 		WHERE
-			delete_yn = 'N'		
-		ORDER BY
+			delete_yn = 'N'
+		ORDER  BY
 			notice_yn ASC,
 			idx DESC,
-			insert_time DESC	
+			insert_time DESC
+		LIMIT
+			#{paginationInfo.firstRecordIndex} , #{recordsPerPage}				
 	</select>
 	
 	<select id="totalListCount" parameterType="BoardDTO" resultType="int">
@@ -89,15 +90,13 @@
 		FROM
 			tb_myboard
 		WHERE
-			delete_yn = 'N'	
+			delete_yn = 'N'		
 	</select>
 	
 	<update id="viewPlusBoard" parameterType="long">
 		UPDATE
 			tb_myboard
 		SET
-			view_cnt = view_cnt + 1
-		WHERE	
-			idx = #{idx}		
+			view_cnt = view_cnt + 1;	
 	</update>
 </mapper>
