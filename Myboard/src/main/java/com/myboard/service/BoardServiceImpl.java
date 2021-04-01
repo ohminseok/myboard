@@ -20,15 +20,16 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public boolean registerBoard(BoardDTO params) {
-		int queryResult = 0;
+		
+		int result = 0;
 		
 		if (params.getIdx() == null) {
-			queryResult = boardMapper.insertBoard(params);
+			result = boardMapper.insertBoard(params);
 		} else {
-			queryResult = boardMapper.updateBoard(params);
+			result = boardMapper.updateBoard(params);
 		}
 		
-		return (queryResult == 1) ? true : false;
+		return (result == 1) ? true : false;
 	}
 	
 	@Override
@@ -38,31 +39,27 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public boolean deleteBoard(Long idx) {
-		int queryResult = 0;
+		int result = 0;
 		
 		BoardDTO board = boardMapper.detailBoard(idx);
-		
-		if (board !=null && "N".equals(board.getDeleteYn())) {
-			queryResult = boardMapper.deleteBoard(idx);
+		if (board != null && "N".equals(board.getDeleteYn()) ) {
+			result = boardMapper.deleteBoard(idx);
 		}
 		
-		return (queryResult == 1) ? true : false;
+		return (result == 1) ? true : false;
 	}
 	
 	@Override
-	public List<BoardDTO> getListBoard(BoardDTO params) {
-	List<BoardDTO> boardList = Collections.emptyList();
-	
-	int count = boardMapper.totalListCount(params);
-	PaginationInfo paginationInfo = new PaginationInfo(params);
-	paginationInfo.setTotalRecordCount(count);
-	
-	params.setPaginationInfo(paginationInfo);
-	
-	if (count > 0) {
-		boardList = boardMapper.listBoard(params);
-	}
-	return boardList;
+	public List<BoardDTO> getListBoard() {
+		List<BoardDTO>boardList = Collections.emptyList();
+		
+		int totalCount = boardMapper.totalListCount();
+		
+		if (totalCount > 0) {
+			boardList = boardMapper.listBoard();
+		}
+		
+		return boardList;
 	}
 	
 	@Override

@@ -6,21 +6,21 @@
 
 	<th:block layout:fragment="content">
 		<div class="card-content">
-			<form th:action="@{/myboard/register.do}" th:object="${board}" method="post" onsubmit="return registerBoard(this)"  class="form-horizontal" >
+			<form th:action="@{/myboard/register.do}" th:object="${board}" method="post" th:onsubmit="return registerBoard(this)" class="form-horizontal" >
 				<!--/* update의 경우 서버로 전달할 게시글 번호 (PK) */-->
-				<input type="hidden"  th:if="*{idx != null and idx > 0}" th:field="*{idx}" />
+				<input type="hidden" th:if="*{idx != null and idx > 0}" th:field="*{idx}">
 
 				<div class="form-group">
 					<label for="noticeYn" class="col-sm-2 control-label">공지글 설정</label>
 					<div class="col-sm-10" style="margin-top: 10px;">
-						<input type="checkbox" th:value="*{noticeYn}" id="noticeYn" name="noticeYn" th:checked="*{#strings.equals( noticeYn , 'Y' )}" />	
+						<input type="checkbox" th:value="*{noticeYn}" id="noticeYn" name="noticeYn" th:checked="*{#strings.equals(noticeYn,'Y')}"/>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="secretYn" class="col-sm-2 control-label">비밀글 설정</label>
 					<div class="col-sm-10" style="margin-top: 10px;">
-						<input type="checkbox" th:value="*{secretYn}" id="secretYn" name="secretYn" th:checked="*{#strings.equals( secretYn , 'Y' )}" />
+						<input type="checkbox" th:value="*{secretYn}" id="secretYn" name="secretYn" th:checked="*{#strings.equals(secretYn,'Y')}"/>
 					</div>
 				</div>
 
@@ -53,19 +53,19 @@
 		</div>
 		<!-- /.card-content -->
 	</th:block>
-
-	<th:block layout:fragment="script">
+	
+	<th:block layout:frgament="script">
 		<script th:inline="javascript">
 			/*<![CDATA[*/
 			function registerBoard(form) {
-					
+				
 				form.noticeYn.value = form.noticeYn.checked == false ? 'N' : 'Y';
 				form.secretYn.value = form.secretYn.checked == false ? 'N' : 'Y';
 				
 				var result = (
 								isValid(form.title,"제목",null,null)
-							&&	isValid(form.content,"내용",null,null)
-							&&	isValid(form.writer,"이름",null,null)	
+							&&	isValid(form.writer,"이름",null,null)
+							&&	isValid(form.content,"내용",null,null)	
 				);
 				
 				if (result == false) {
@@ -75,4 +75,5 @@
 			/*]]>*/
 		</script>
 	</th:block>
+	
 </html>

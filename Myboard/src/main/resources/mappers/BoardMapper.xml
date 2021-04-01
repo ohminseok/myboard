@@ -80,8 +80,7 @@
 			notice_yn ASC,
 			idx DESC,
 			insert_time DESC
-		LIMIT
-			#{paginationInfo.firstRecordIndex} , #{recordsPerPage}				
+				
 	</select>
 	
 	<select id="totalListCount" parameterType="BoardDTO" resultType="int">
