@@ -50,13 +50,18 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardDTO> getListBoard() {
+	public List<BoardDTO> getListBoard(BoardDTO params) {
 		List<BoardDTO>boardList = Collections.emptyList();
 		
-		int totalCount = boardMapper.totalListCount();
+		int totalCount = boardMapper.totalListCount(params);
+		
+		PaginationInfo paginationInfo = new PaginationInfo(params);
+		paginationInfo.setTotalRecordCount(totalCount);
+		
+		params.setPaginationInfo(paginationInfo);
 		
 		if (totalCount > 0) {
-			boardList = boardMapper.listBoard();
+			boardList = boardMapper.listBoard(params);
 		}
 		
 		return boardList;

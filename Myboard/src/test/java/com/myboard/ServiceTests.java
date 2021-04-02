@@ -24,7 +24,9 @@ public class ServiceTests {
 		params.setWriter("테스트");
 		params.setContent("테스트");
 		
-		boolean result = boardService.resigsterBoard(params);
+		boolean result = boardService.registerBoard(params);
+		
+		System.out.println("result = " + result);
 		
 		
 	}

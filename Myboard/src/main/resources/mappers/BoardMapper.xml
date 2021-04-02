@@ -80,6 +80,8 @@
 			notice_yn ASC,
 			idx DESC,
 			insert_time DESC
+		LIMIT
+			#{paginationInfo.firstRecordIndex} , #{recordsPerPage}	
 				
 	</select>
 	

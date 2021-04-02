@@ -56,13 +56,44 @@ public class BoardController extends UiUtils {
 	}
 	
 	@GetMapping(value = "/myboard/index.do")
-	public String openList(Model model) {
+	public String openList(@ModelAttribute("params") BoardDTO params,Model model) {
 		
-		List<BoardDTO> boardList = boardService.getListBoard();
+		List<BoardDTO> boardList = boardService.getListBoard(params);
 		
 		model.addAttribute("boardList",boardList);
 		
 		return "myboard/index";
+	}
+	
+	@GetMapping(value = "/myboard/view.do")
+	public String openView(@RequestParam(value="idx",required = false)Long idx,Model model) {
+		if (idx == null) {
+			return showMessageWithRedirect("게시글이없음", "/myboard/index.do", Method.GET, null, model);
+		} else {
+			BoardDTO board = boardService.getDetailBoard(idx);
+			
+			if (board == null || "Y".equals(board.getDeleteYn())) {
+				return showMessageWithRedirect("게시글 못열음", "/myboard/index.do", Method.GET, null, model);
+			}
+			
+			model.addAttribute("board",board);
+		}
+		return "myboard/view";
+	}
+	
+	@PostMapping(value = "/myboard/delete.do")
+	public String deleteBoard(@RequestParam(value = "idx",required = false) Long idx,Model model) {
+		try {
+			boolean isDeleted = boardService.deleteBoard(idx);
+			if (isDeleted == false) {
+				return showMessageWithRedirect("삭제 실패", "/myboard/index.do", Method.GET, null, model);
+			}
+		} catch (DataAccessException e) {
+			return showMessageWithRedirect("데이터 문제", "/myboard/index.do", Method.GET, null, model);
+		} catch (Exception e) {
+			return showMessageWithRedirect("시스템 문제", "/myboard/index.do", Method.GET, null, model);
+		}
+		return showMessageWithRedirect("삭제 성공", "/myboard/index.do", Method.GET, null, model);
 	}
 
 		
