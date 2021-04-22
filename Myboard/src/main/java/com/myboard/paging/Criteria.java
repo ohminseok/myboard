@@ -16,9 +16,9 @@ public class Criteria {
 	
 	private int pageSize;
 	
-	private String searchKeyword;
-	
 	private String searchType;
+	
+	private String searchKeyword;
 	
 	public Criteria() {
 		this.currentPageNo = 1;
@@ -31,10 +31,11 @@ public class Criteria {
 						.queryParam("currentPageNo", pageNo)
 						.queryParam("recordsPerPage", recordsPerPage)
 						.queryParam("pageSize", pageSize)
-						.queryParam("searchKeyword", searchKeyword)
 						.queryParam("searchType", searchType)
+						.queryParam("searchKeyword", searchKeyword)
 						.build()
 						.encode();
-		return uriComponents.toUriString();
+		
+		return uriComponents.toString();
 	}
 }

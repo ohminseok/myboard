@@ -12,7 +12,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// TODO Auto-generated method stub
-		registry.addInterceptor(new LoggerInterceptor()).excludePathPatterns("/css/**", "/img/**", "/js/**", "/scss/**", "/vendor/**");
+		registry.addInterceptor(new LoggerInterceptor()).excludePathPatterns("/css/**","/fonts/**", "/plugin/**", "/scripts/**");
 		
 	}
 	

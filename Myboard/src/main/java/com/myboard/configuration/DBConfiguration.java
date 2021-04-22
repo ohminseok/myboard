@@ -20,14 +20,14 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@EnableTransactionManagement
+@EnableTransactionManagement //스프링에서 제공하는 에너테이션 기반 트랜잭션을 활성화
 @PropertySource("classpath:/application.properties")
 public class DBConfiguration {
 
 	@Autowired
 	private ApplicationContext applicationContext;
 
-	@Bean
+	@Bean //스프링에서 제공해주는 트랜잭션 매니저를 빈으로 등록
 	public PlatformTransactionManager TransactionManager() {
 		return new DataSourceTransactionManager(dataSource());
 	}

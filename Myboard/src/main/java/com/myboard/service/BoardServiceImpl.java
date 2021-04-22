@@ -20,7 +20,6 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public boolean registerBoard(BoardDTO params) {
-		
 		int result = 0;
 		
 		if (params.getIdx() == null) {
@@ -42,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
 		int result = 0;
 		
 		BoardDTO board = boardMapper.detailBoard(idx);
-		if (board != null && "N".equals(board.getDeleteYn()) ) {
+		if (board != null && "N".equals(board.getDeleteYn())) {
 			result = boardMapper.deleteBoard(idx);
 		}
 		
@@ -51,19 +50,17 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public List<BoardDTO> getListBoard(BoardDTO params) {
-		List<BoardDTO>boardList = Collections.emptyList();
+		List<BoardDTO> boardList = Collections.emptyList();
 		
-		int totalCount = boardMapper.totalListCount(params);
+		int total = boardMapper.totalListCount(params);
 		
 		PaginationInfo paginationInfo = new PaginationInfo(params);
-		paginationInfo.setTotalRecordCount(totalCount);
+		paginationInfo.setTotalRecordCount(total);
 		
 		params.setPaginationInfo(paginationInfo);
-		
-		if (totalCount > 0) {
+		if (total > 0) {
 			boardList = boardMapper.listBoard(params);
 		}
-		
 		return boardList;
 	}
 	
@@ -71,6 +68,8 @@ public class BoardServiceImpl implements BoardService {
 	public int getViewPlus(Long idx) {
 		return boardMapper.viewPlusBoard(idx);
 	}
+	
+
 	
 	
 }

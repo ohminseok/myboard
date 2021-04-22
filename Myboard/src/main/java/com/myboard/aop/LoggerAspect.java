@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component //개발자가 직접 정의한 클래스를 빈으로 등록할 때 사용
 @Aspect
 public class LoggerAspect {
 

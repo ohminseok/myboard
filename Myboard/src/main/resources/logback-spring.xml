@@ -2,7 +2,9 @@
 <configuration debug="true">
 
 	<!-- Appenders -->
+	<!-- 로그를 어디 출력할지 결정 -->
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- appneder에 포함되어 출력할 로그의 형식을 지정 -->
 		<encoder>
 			<Pattern>%d %5p [%c] %m%n</Pattern>
 		</encoder>
@@ -15,8 +17,9 @@
 	</appender>
 
 	<!-- Logger -->
-	<logger name="com.myboard" level="DEBUG" appender-ref="console" />
-	<logger name="jdbc.sqlonly" level="INFO" appender-ref="console-infolog" />
+	<!-- 출력할 로그의 레벨을 조절하여 appender에 전달 -->
+	<logger name="com.myboard" level="DEBUG" appender-ref="console" /> <!-- 첫번째 logger에서 자바 패키지 경로를 의미 -->
+	<logger name="jdbc.sqlonly" level="INFO" appender-ref="console-infolog" /> <!-- 로그 타입 -->
 	<logger name="jdbc.resultsettable" level="INFO" appender-ref="console-infolog" />
 
 	<!-- Root Logger -->
